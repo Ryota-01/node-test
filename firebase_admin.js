@@ -15,23 +15,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors()); // corsミドルウェアを設定
 
+// Firebase Authenticationのインスタンスを取得
+const auth = admin.auth();
+
 // corsの設定
 app.options("*", cors()); // プリフライトリクエストに対する応答を許可
-
-app.get("/messages", async (req, res) => {
-  try {
-    // messagesコレクションのデータを全件取得
-    const messageRef = db.collection("messages");
-    const snapshots = await messageRef.get();
-    // レスポンスからデータ部分のみ取り出す。
-    const messages = snapshots.docs.map((doc) => doc.data());
-    console.log(messages);
-    res.json(messages);
-  } catch (e) {
-    console.error(e.message);
-    res.status(500).json({ error: "Failed to fetch messages" }); // エラーレスポンスを返す
-  }
-});
 
 const generateDocName = () => {
   const date = new Date();
@@ -45,26 +33,44 @@ const generateDocName = () => {
   return formattedDocName;
 };
 
-app.post("/messages", async (req, res) => {
-  console.log(generateDocName());
+// ユーザー情報取得メソッド
+app.get("/users", async (req, res) => {
   try {
-    const text = req.body.text;
-    console.log(text);
-    if (!text) {
-      return res.status(400).json({ error: "Text is required" });
-    }
-    const docName = generateDocName();
-    const messageRef =  await db.collection("messages").doc(`${docName}`);
-    const message = {
-      text,
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
-    };
-    await messageRef.set(message);
-    console.log("Message added to Firebase:", message);
-    res.status(201).json({ message: "Message added successfully" });
+    // 全てのユーザー情報を取得
+    const listUsersResult = await auth.listUsers();
+    const users = listUsersResult.users;
+    res.json(users);
   } catch (e) {
-    console.error("Error adding message to Firebase:", e);
-    res.status(500).json({ error: "Failed to add message to Firebase" });
+    console.error(e.message);
+    res.status(500).json({ error: "ユーザー情報の取得に失敗しました" }); // エラーレスポンスを返す
+  }
+});
+
+// ユーザー情報作成メソッド
+app.post("/usercreate", async (req, res) => {
+  console.log(req.body);
+  try {
+    const userRecord = await auth.createUser(req.body);
+    console.log("Message added to Firebase:", userRecord);
+    res.status(201).json({ message: "User added successfully" });
+  } catch (e) {
+    console.error("Error adding user to Firebase:", e);
+    res.status(500).json({ error: "Failed to add user to Firebase" });
+  }
+});
+
+// ユーザー情報編集メソッド
+app.post("/useredit", async (req, res) => {
+  console.log(req.body.name);
+  try {
+    const docName = req.body.name;
+    const userRef = await db.collection("users").doc(docName);
+    await userRef.set(req.body);
+    console.log("Message added to Firebase:", req.body);
+    res.status(201).json({ message: "User added successfully" });
+  } catch (e) {
+    console.error("Error adding user to Firebase:", e);
+    res.status(500).json({ error: "Failed to add user to Firebase" });
   }
 });
 

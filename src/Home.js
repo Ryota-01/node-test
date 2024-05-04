@@ -10,15 +10,14 @@ import {
   ListItem,
   ListItemText,
   List,
-  ListItemIcon,
-  Checkbox,
   CircularProgress,
   ListItemAvatar,
   Avatar,
   Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
-export default function Test() {
+export default function Home() {
   const [formData, setFormData] = useState("");
   const [getData, setGetData] = useState("");
   const [loading, setLoading] = useState();
@@ -65,6 +64,7 @@ export default function Test() {
     <>
       <Box width="70%" margin="24px auto" method="POST">
         <Card component="form" onSubmit={handleSubmit} sx={{ padding: "16px" }}>
+          <Link to="/user">User　></Link>
           <TextField
             size="small"
             type="text"
@@ -89,7 +89,6 @@ export default function Test() {
                       color="text.secondary"
                       primary={`${data.text}`}
                     />
-                    <Typography variant="body2"></Typography>
                   </ListItem>
                   <Divider />
                 </>
