@@ -21,18 +21,6 @@ const auth = admin.auth();
 // corsの設定
 app.options("*", cors()); // プリフライトリクエストに対する応答を許可
 
-const generateDocName = () => {
-  const date = new Date();
-  const getFullYear = date.getFullYear();
-  const getMonth = date.getMonth() + 1;
-  const getDate = date.getDate();
-  const getHours = date.getHours();
-  const getMinutes = date.getMinutes();
-  const getSeconds = date.getSeconds();
-  const formattedDocName = `${getFullYear}-${getMonth}-${getDate}_${getHours}:${getMinutes}:${getSeconds}`;
-  return formattedDocName;
-};
-
 // ユーザー情報取得メソッド
 app.get("/users", async (req, res) => {
   try {
