@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "node-backend-test-e1cb2"
-  }
+    "default": "node-backend-test-e1cb2",
+    "dev": "node-backend-test-e1cb2"
+  },
+  "targets": {},
+  "etags": {}
 }
