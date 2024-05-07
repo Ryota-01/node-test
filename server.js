@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const admin = require("firebase-admin");
 const cors = require("cors");
-const ServiceAccount = require("./ServiceAccount.json");
+const ServiceAccount = require(process.env.MY_FIREBASE_CREDENTIALS);
 
 // Firebaseのinitialize
 admin.initializeApp({ credential: admin.credential.cert(ServiceAccount) });
