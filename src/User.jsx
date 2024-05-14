@@ -21,6 +21,7 @@ export default function User() {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/users`)
       .then((res) => {
+        console.log(res)
         setUsers(res.data);
       })
       .catch((e) => {

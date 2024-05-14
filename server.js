@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const admin = require("firebase-admin");
 const cors = require("cors");
+require('dotenv').config();
 const ServiceAccount = require(process.env.MY_FIREBASE_CREDENTIALS);
 
 // Firebaseのinitialize
@@ -51,7 +52,7 @@ app.post("/usercreate", async (req, res) => {
 
 // ユーザー情報編集メソッド
 app.post("/useredit", async (req, res) => {
-  console.log(req.body.name);
+  console.log(req);
   try {
     const docName = req.body.name;
     const userRef = await db.collection("users").doc(docName);

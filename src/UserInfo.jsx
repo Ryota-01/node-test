@@ -13,7 +13,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function UserInfo() {
   const location = useLocation();
   const { user } = location.state;
-  console.log(user);
   const creationTime = user.metadata.creationTime;
   const lastSignInTime = user.metadata.lastSignInTime;
   const navigate = useNavigate();

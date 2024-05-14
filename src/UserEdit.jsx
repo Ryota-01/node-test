@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function UserEdit() {
   const location = useLocation();
   const user = location.state;
+  console.log(user)
   const navigate = useNavigate();
   const [inputAge, setInputAge] = useState();
   const [inputBirthplace, setInputBirthplace] = useState();
@@ -21,7 +22,7 @@ export default function UserEdit() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const value = {
-      name: user.name,
+      name: user.displayName,
       age: inputAge === null || inputAge === undefined ? user.age : inputAge,
       birthplace:
         inputBirthplace === null || inputBirthplace === undefined
@@ -30,6 +31,7 @@ export default function UserEdit() {
     };
     try {
       const result = window.confirm("ユーザー情報を編集を編集しますか？");
+      console.log(value)
       if (result) {
         await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/useredit`,
@@ -51,18 +53,6 @@ export default function UserEdit() {
         <Card sx={{ padding: "24px", mt: 2 }}>
           <Typography>Useredit</Typography>
           <Divider />
-          <Box sx={{ mt: 2 }}>
-            <Typography>ー変更前ー</Typography>
-            <Typography variant="body1" color="text.secondary" padding="8px 0">
-              名前：{user.name}
-            </Typography>
-            <Typography variant="body1" color="text.secondary" padding="8px 0">
-              年齢：{user.age}歳
-            </Typography>
-            <Typography variant="body1" color="text.secondary" padding="8px 0">
-              出身：{user.birthplace}
-            </Typography>
-          </Box>
 
           <Box
             component="form"
