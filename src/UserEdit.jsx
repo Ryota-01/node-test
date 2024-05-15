@@ -60,6 +60,7 @@ export default function UserEdit() {
             onSubmit={handleSubmit}
             sx={{ width: "50%", margin: "24px auto" }}
           >
+            
             <TextField
               type="number"
               size="small"
